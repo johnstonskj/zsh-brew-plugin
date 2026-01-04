@@ -1,0 +1,12 @@
+# -*- mode: sh; eval: (sh-set-shell "zsh") -*-
+
+emulate -L zsh
+
+_name="${1}"
+_path=$(homebrew_formula_prefix ${_name})
+
+if [[ -d "${_path}" ]]; then
+    typeset -x "${(U)_name/-/_/}_PREFIX"="${_path}"
+fi
+
+unset _name _path
