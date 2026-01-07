@@ -14,12 +14,6 @@ BREW[_PLUGIN_DIR]="${0:h}"
 BREW[_ALIASES]=""
 BREW[_FUNCTIONS]=""
 
-#
-# Public variables:
-#
-# `BREW_EXAMPLE`; if set it does something magical.
-#
-
 ############################################################################
 # Internal Support Functions
 ############################################################################
@@ -28,7 +22,7 @@ BREW[_FUNCTIONS]=""
 # This function will add to the `BREW[_FUNCTIONS]` list which is
 # used at unload time to `unfunction` plugin-defined functions.
 #
-_brew_remember_fn() {
+.brew_remember_fn() {
     emulate -L zsh
 
     local fn_name="${1}"
@@ -38,21 +32,21 @@ _brew_remember_fn() {
         BREW[_FUNCTIONS]="${BREW[_FUNCTIONS]},${fn_name}"
     fi
 }
-_brew_remember_fn _brew_remember_fn
+.brew_remember_fn .brew_remember_fn
 
-_brew_define_alias() {
+brew_define_alias() {
     local alias_name="brew"
     local alias_value=""
 
-    alias =
+    alias ${alias_name}=${alias_value}
 
-    if [[ -z  ]]; then
+    if [[ -z "${BREW[_ALIASES]}" ]]; then
         BREW[_ALIASES]=""
-    elif [[ ",," != *",,"* ]]; then
-        BREW[_ALIASES]=","
+    elif [[ ",${BREW[_ALIASES]}," != *",${alias_name},"* ]]; then
+        BREW[_ALIASES]="${BREW[_ALIASES]},${alias_name}"
     fi
 }
-_brew_remember_fn _brew_remember_alias
+.brew_remember_fn .brew_remember_alias
 
 #
 # This function does the initializtion of variables in the global variable
@@ -64,7 +58,7 @@ _brew_remember_fn _brew_remember_alias
 # - `_PLUGIN_FNS_DIR`; the directory (if present) for plugin autoload functions.
 # - `_FUNCTIONS`; a list of all functions defined by the plugin.
 #
-_brew_plugin_init() {
+brew_plugin_init() {
     emulate -L zsh
 
     if command -v "${HOMEBREW_CMD}" >/dev/null 2>&1; then
@@ -91,13 +85,13 @@ _brew_plugin_init() {
         fi
 
         local fn
-        for fn in /*(.:t); do
+        for fn in ${BREW[_PLUGIN_DIR]}/functions/*(.:t); do
             autoload -Uz ${fn}
-            _brew_remember_fn ${fn}
+            .brew_remember_fn ${fn}
         done
     fi
 }
-_brew_remember_fn _brew_plugin_init
+.brew_remember_fn brew_plugin_init
 
 ############################################################################
 # Plugin Unload Function
@@ -128,9 +122,8 @@ brew_plugin_unload() {
     # Remove the global data variable.
     unset BREW
 
-    # Remove self from fpath.
-    # shellcheck disable=SC2296
-    fpath=("${(@)fpath:#${0:A:h}}")
+    # Remove functions dir from fpath.
+    fpath=("${(@)fpath:#${0:A:h}/functions}")
 
     # Remove this function.
     unfunction "brew_plugin_unload"
@@ -140,5 +133,6 @@ brew_plugin_unload() {
 # Initialize Plugin
 ############################################################################
 
-_brew_plugin_init
+brew_plugin_init
+
 true
