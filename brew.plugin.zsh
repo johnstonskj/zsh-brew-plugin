@@ -119,11 +119,11 @@ brew_plugin_unload() {
         unalias "${alias}"
     done
 
-    # Remove the global data variable.
-    unset BREW
-
     # Remove functions dir from fpath.
     fpath=("${(@)fpath:#${0:A:h}/functions}")
+
+    # Remove the global data variable.
+    unset BREW
 
     # Remove this function.
     unfunction "brew_plugin_unload"
