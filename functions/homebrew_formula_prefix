@@ -2,4 +2,4 @@
 
 emulate -L zsh
 
-printf '%s/opt/%s' "${BREW[_PREFIX]}" "${1}"
+printf '%s/opt/%s' "${HOMEBREW_PREFIX}" "${1}"
