@@ -1,8 +1,8 @@
 # -*- mode: sh; eval: (sh-set-shell "zsh") -*-
 #
-# Plugin Name: brew
-# Description: Simple environment setup for using `brew` as a package manager.
-# Repository: https://github.com/johnstonskj/zsh-brew-plugin
+# @name: brew
+# @brief: Simple environment setup for using `brew` as a package manager.
+# @repository: https://github.com/johnstonskj/zsh-brew-plugin
 #
 
 ############################################################################
