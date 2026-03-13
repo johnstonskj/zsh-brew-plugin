@@ -19,13 +19,13 @@ brew_plugin_init() {
     @zplugins_envvar_save brew HOMEBREW_PREFIX
 
     if command -v brew > /dev/null 2>&1; then
-        export HOMEBREW_CMD="$(which brew)"
+        typeset -g HOMEBREW_CMD="$(which brew)"
 
         eval "$(${HOMEBREW_CMD} shellenv)"
     else
         log_error "homebrew does not seem to be installed, setting defaults"
-        export HOMEBREW_PREFIX="/opt/homebrew"
-        export HOMEBREW_CMD="${HOMEBREW_PREFIX}/bin/brew"
+        typeset -g HOMEBREW_PREFIX="/opt/homebrew"
+        typeset -g HOMEBREW_CMD="${HOMEBREW_PREFIX}/bin/brew"
     fi
 }
 

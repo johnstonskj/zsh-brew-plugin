@@ -1,10 +1,10 @@
-# -*- mode: sh; eval: (sh-set-shell "zsh") -*-
+# shellcheck shell=bash disable=SC2296,SC2155,SC2086 # -*- mode: sh; eval: (sh-set-shell "zsh") -*-
 
 emulate -L zsh
 
-_name="${1}"
-_path=$(homebrew_formula_prefix ${_name})
+typeset name="${1}"
+typeset path=$(homebrew_formula_prefix ${name})
 
-typeset -x "${(U)_name/-/_/}_PREFIX"="${_path}"
+typeset -x "${(U)name/-/_/}_PREFIX"="${path}"
 
-unset _name _path
+unset name path

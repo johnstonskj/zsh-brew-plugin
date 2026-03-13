@@ -1,5 +1,5 @@
-# -*- mode: sh; eval: (sh-set-shell "zsh") -*-
+# shellcheck shell=bash disable=SC2086 # -*- mode: sh; eval: (sh-set-shell "zsh") -*-
 
 emulate -L zsh
 
-test -d $(homebrew_formula_prefix "${1}")
+test -d "$(homebrew_formula_prefix ${1})"

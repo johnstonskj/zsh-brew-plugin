@@ -1,5 +1,9 @@
-# -*- mode: sh; eval: (sh-set-shell "zsh") -*-
+# shellcheck shell=bash # -*- mode: sh; eval: (sh-set-shell "zsh") -*-
 
 emulate -L zsh
 
-printf '%s/opt/%s' "${HOMEBREW_PREFIX}" "${1}"
+typeset name="${1}"
+
+printf '%s/opt/%s' "${HOMEBREW_PREFIX}" "${name}"
+
+unset name
